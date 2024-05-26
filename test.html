@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0px;
+        height: 100%;
+        font-family: "Gill Sans", sans-serif !important;
+      }
+      body {
+        overflow: hidden;
+        height: 100dvh;
+      }
+      .absolute {
+        position: fixed;
+        top: 45px;
+        right: 10%;
+        z-index: 200;
+      }
+      .circle {
+        border: 4px solid white;
+        background-image: url("./chatbot.jpg");
+        background-size: cover;
+        height: 80px;
+        width: 80px;
+        border-radius: 40px;
+        background-color: #3b81f6;
+      }
+      .chatbot-guest-bubble .object-cover {
+        margin-bottom: 20px !important;
+      }
+      .title {
+        position: fixed;
+        top: 55px;
+        left: 5%;
+        z-index: 200;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        height: auto !important;
+      }
+      .chatbot-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        background-color: black;
+      }
+      .title h3 {
+        font-weight: 500;
+        font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+        height: auto !important;
+      }
+      .container-button-refresh {
+        position: fixed;
+        top: 120px;
+        right: -5px;
+        z-index: 200;
+        height: auto;
+      }
+      .container-button-refresh button {
+        background-color: transparent;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 13px;
+        text-transform: capitalize;
+      }
+      /* welcome page */
+      .welcomepage-container {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background-color: rgb(0, 0, 0);
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        opacity: 1;
+        transition: 0.3s;
+        gap: 20px;
+        /* transition: opacity 2s ease-in-out, filter 2s ease-in-out; */
+        transition: .3s ease-in-out;
+        filter: blur(10px);
+      }
+      .welcomepage-container.loaded {
+        filter: blur(0); 
+      }
+      .welcomepage-container .overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 3;
+      }
+      .welcomepage-container img {
+        height: 50px;
+        width: auto;
+        z-index: 5;
+        opacity: 0;
+      }
+      .wordCarousel {
+        height: auto !important;
+        font-size: 24px;
+        font-weight: 100;
+        color: #eee;
+        padding-bottom: 100px;
+        z-index: 5;
+        opacity: 0;
+        div {
+          overflow: hidden;
+          position: relative;
+          float: right;
+          height: 65px;
+          padding-top: 10px;
+          margin-top: -10px;
+          margin-left: -40px;
+          li {
+            font-family: Serif;
+            color: #eee;
+            font-weight: 700;
+            padding: 0 10px;
+            height: 45px;
+            margin-bottom: 45px;
+            display: block;
+          }
+        }
+      }
+      .opacity-0 {
+        opacity: 0;
+        z-index: -1;
+      }
+      .flip2 {
+        animation: flip2 2s cubic-bezier(0.23, 1, 0.32, 1.2);
+      }
+      .flip3 {
+        animation: flip3 4s cubic-bezier(0.23, 1, 0.32, 1.2);
+      }
+      .flip4 {
+        animation: flip4 6s cubic-bezier(0.23, 1, 0.32, 1.2);
+      }
+      .flip5 {
+        animation: flip5 8s cubic-bezier(0.23, 1, 0.32, 1.2);
+      }
+      @keyframes flip2 {
+        0% {
+          margin-top: -180px;
+        }
+        5% {
+          margin-top: -90px;
+        }
+        50% {
+          margin-top: -90px;
+        }
+        55% {
+          margin-top: 0px;
+        }
+        99.99% {
+          margin-top: 0px;
+        }
+        100% {
+          margin-top: -180px;
+        }
+      }
+      @keyframes flip3 {
+        0% {
+          margin-top: -270px;
+        }
+        5% {
+          margin-top: -180px;
+        }
+        33% {
+          margin-top: -180px;
+        }
+        38% {
+          margin-top: -90px;
+        }
+        66% {
+          margin-top: -90px;
+        }
+        71% {
+          margin-top: 0px;
+        }
+        99.99% {
+          margin-top: 0px;
+        }
+        100% {
+          margin-top: -270px;
+        }
+      }
+      @keyframes flip4 {
+        0% {
+          margin-top: -360px;
+        }
+        5% {
+          margin-top: -270px;
+        }
+        25% {
+          margin-top: -270px;
+        }
+        30% {
+          margin-top: -180px;
+        }
+        50% {
+          margin-top: -180px;
+        }
+        55% {
+          margin-top: -90px;
+        }
+        75% {
+          margin-top: -90px;
+        }
+        80% {
+          margin-top: 0px;
+        }
+        99.99% {
+          margin-top: 0px;
+        }
+        100% {
+          margin-top: -360px;
+        }
+      }
+      @keyframes flip5 {
+        0% {
+          margin-top: -450px;
+        }
+        5% {
+          margin-top: -360px;
+        }
+        20% {
+          margin-top: -360px;
+        }
+        25% {
+          margin-top: -270px;
+        }
+        40% {
+          margin-top: -270px;
+        }
+        45% {
+          margin-top: -180px;
+        }
+        60% {
+          margin-top: -180px;
+        }
+        65% {
+          margin-top: -90px;
+        }
+        80% {
+          margin-top: -90px;
+        }
+        85% {
+          margin-top: 0px;
+        }
+        99.99% {
+          margin-top: 0px;
+        }
+        100% {
+          margin-top: -450px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Precarica l'immagine
+      var img = new Image();
+      img.src = "./welcome_page_bg.jpg";
+      img.onload = function () {
+        var container = document.querySelector(".welcomepage-container");
+        container.style.backgroundImage = "url(" + img.src + ")";
+        var text = document.querySelector(".wordCarousel");
+        var logo = document.querySelector(".logo");
+        text.style.opacity = 1;
+        logo.style.opacity = 1;
+        container.classList.add("loaded");
+      };
+    </script>
+    <!-- welcome page -->
+    <div class="welcomepage-container">
+      <div class="overlay"></div>
+      <img src="./Run2Cloud Logo.png" alt="logo" class="logo" />
+      <h4 class="wordCarousel">
+        <span>Siamo pronti a </span>
+        <div>
+          <ul class="flip5">
+            <li>rispondere</li>
+            <li>assisterti</li>
+            <li>aiutarti</li>
+            <li>guidarti</li>
+            <li>sostenerti</li>
+          </ul>
+        </div>
+      </h4>
+    </div>
+
+    <div class="chatbot-overlay"></div>
+    <flowise-fullchatbot></flowise-fullchatbot>
+    <div class="title">
+      <h3>Medicare Assistant</h3>
+    </div>
+    <div class="absolute circle"></div>
+
+    <script type="module">
+      import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js";
+      Chatbot.initFull({
+        chatflowid: "864ccfad-345d-4006-89bb-5318e5b1836c",
+        apiHost: "/api/v1/prediction/864ccfad-345d-4006-89bb-5318e5b1836c",
+        theme: {
+          button: {
+            backgroundColor: "#3B81F6",
+            right: 20,
+            bottom: 20,
+            size: "small",
+            iconColor: "white",
+            customIconSrc:
+              "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg",
+          },
+          chatWindow: {
+            showTitle: true, // show/hide the title bar
+            title: "",
+            welcomeMessage: "Ciao, come posso aiutarti?",
+            errorMessage: "Errore",
+            backgroundColor: "#efefef",
+            width: "100%",
+            fontSize: 14,
+            poweredByTextColor: "transparent",
+            botMessage: {
+              backgroundColor: "#21427b",
+              textColor: "#fefefe",
+              showAvatar: true,
+              avatarSrc: "./chatbot_avatar.jpg",
+            },
+            userMessage: {
+              backgroundColor: "#6f9ff3",
+              textColor: "#ffffff",
+              showAvatar: true,
+              avatarSrc: "./personas.jpeg",
+            },
+            textInput: {
+              placeholder: "Scrivi qui...",
+              backgroundColor: "#ffffff",
+              textColor: "#303235",
+              sendButtonColor: "#3B81F6",
+            },
+          },
+        },
+      });
+    </script>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+          document
+            .querySelector(".welcomepage-container")
+            .classList.add("opacity-0");
+          var chatbotOverlay = document.querySelector(".chatbot-overlay");
+          chatbotOverlay.style.display = "none";
+        }, 8000);
+        var chatbot = document.querySelector("flowise-fullchatbot");
+
+        const shadowRoot = chatbot.shadowRoot;
+        const childNodes = Array.from(shadowRoot.childNodes);
+
+        childNodes[0].textContent +=
+          "*{font-family: 'Gill Sans', sans-serif; !important;}";
+        childNodes[0].textContent +=
+          ".chatbot-host-bubble{border-radius: 30px !important; margin-left: -20px; margin-top: 20px;}";
+        childNodes[0].textContent +=
+          ".chatbot-guest-bubble{border-radius: 30px !important; margin-right: -20px; margin-bottom: -20px;}";
+        childNodes[0].textContent += ".text-center{display: none !important;}";
+        childNodes[0].textContent +=
+          ".object-cover{border:2px solid white; background-color: white;}";
+        childNodes[0].textContent +=
+          ".chatbot-container > div:nth-child(1){height: 100px !important; position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important;}";
+        childNodes[0].textContent +=
+          ".chatbot-container > div:nth-child(2){margin-top: 55px !important; height: calc(100% - 120px) !important;}";
+        childNodes[0].textContent +=
+          ".chatbot-input{margin-bottom: 30px !important; border-radius: 30px !important; position: fixed !important; bottom: 0 !important; left: 0px !important; right: 0px !important; margin-left: 5% !important; width: 90% !important;}";
+        childNodes[0].textContent +=
+          ".chatbot-chat-view{margin-bottom: 80px !important; padding-left: 20px; padding-right: 20px;}";
+        childNodes[0].textContent +=
+          ".chatbot-container > div:nth-child(1) .chatbot-button{opacity: 1 !important; position: fixed; top: 0px; right: -10px;  z-index: 200; transform: scale(0.6)}";
+      });
+    </script>
+  </body>
+</html>
